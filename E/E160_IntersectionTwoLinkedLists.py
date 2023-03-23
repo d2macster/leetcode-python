@@ -4,44 +4,36 @@ class ListNode:
         self.val = x
         self.next = None
 
-class Solution:
-    def showList(self, head: ListNode) -> List[str]:
-        result = []
-        while head is not None:
-            result.append(str(head.val))
-            head = head.next
-        return result
-    
-
-    def revertList(self, head: ListNode) -> ListNode:
-        prev_head : Optional[ListNode] = None
-        result = head
-        while head is not None:
-            result = head
-            next_head = head.next
-            head.next = prev_head
-            prev_head = head
-            head = next_head
-
-        return result
-        
+class Solution:        
     def getIntersectionNode(self, headA: ListNode, headB: ListNode) -> Optional[ListNode]:
-        headA = self.revertList(headA)
-        headB = self.revertList(headB)
-        print(self.showList(headA))
-        print(self.showList(headB))
-        iA = headA
-        iB = headB
-        hABi = None
-        while iA is not None and iB is not None and iA.val == iB.val:
-            hABi = iA
-            iA = iA.next
-            iB = iB.next
-        headA = self.revertList(headA)
-        headB = self.revertList(headB)
-        print(self.showList(headA))
-        print(self.showList(headB))
-        return hABi
+        ha = headA
+        hb = headB
+        La = 1
+        Lb = 1
+        while ha.next is not None:
+            La += 1
+            ha = ha.next
+        while hb.next is not None:
+            Lb += 1
+            hb = hb.next
+        # no common path
+        if ha != hb:
+            return None
+        
+        ha = headA
+        hb = headB
+        for _ in range(La - Lb):
+            ha = ha.next
+        for _ in range(Lb - La):
+            hb = hb.next
+        while ha is not None:
+            if ha == hb:
+                return ha
+            ha = ha.next
+            hb = hb.next
+
+        return headA
+
     
 if __name__ == "__main__":
     nums1 = [4,1,8,4,5]
