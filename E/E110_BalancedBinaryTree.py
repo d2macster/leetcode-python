@@ -7,29 +7,17 @@ class TreeNode:
         self.right = right
 class Solution:
     def isBalanced(self, root: Optional[TreeNode]) -> bool:
+        return self.depth_helper(root) != -1
+    
+    def depth_helper(self, root: Optional[TreeNode]) -> int:
         if root is None:
-            return True
-        layer = [root]
-        depth = 0
-        depth_set = set()
-        while layer:
-            depth += 1
-            new_layer = []
-            for n in layer:
-                if n.left is None and n.right is None:
-                    depth_set.add(depth)
-
-                if n.left is not None:
-                    new_layer.append(n.left)
-                if n.right is not None:
-                    new_layer.append(n.right)
-            L = len(depth_set)
-            if L > 2:
-                return False
-            if L == 2:
-                dl = list(depth_set)
-                if abs(dl[0] - dl[1]) > 1:
-                    return False
-            
-            layer = new_layer
-        return True
+            return 0
+        ld = self.depth_helper(root.left)
+        if ld == -1:
+            return -1
+        rd = self.depth_helper(root.right)
+        if rd == -1:
+            return -1
+        if abs(ld - rd) > 1:
+            return -1
+        return 1 + max(ld, rd)
