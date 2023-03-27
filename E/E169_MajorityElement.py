@@ -1,16 +1,20 @@
-from typing import List
-from collections import defaultdict
+from typing import List, Optional
 class Solution:
     def majorityElement(self, nums: List[int]) -> int:
-        if not nums:
+        L = len(nums)
+        if L == 0:
             return 0
-        counter = defaultdict(int)
-        for n in nums:
-            counter[n] += 1
-        best_count = 0
-        best_e = 0
-        for e, c in counter.items():
-            if c > best_count:
-                best_count = c
-                best_e = e
-        return best_e
+        majority_count = 1
+        majority_e = nums[0]
+        for n in nums[1:]:
+            if n == majority_e:
+                majority_count += 1
+            else:
+                majority_count -= 1
+            if majority_count > int(L/2):
+                return majority_e
+            
+            if majority_count == 0:
+                majority_count = 1
+                majority_e = n
+        return majority_e
