@@ -16,15 +16,13 @@ class Solution:
                 positions[np].pop(0)
 
         survivors = []
-        for n, nids in positions.items():
-            if not nids:
-                continue
-            for nid in nids:
-                survivors.append((n, nid))
+        for n in q:
+            nid = positions[n].pop(0)
+            survivors.append((n, nid))
         survivors = sorted(survivors, key=lambda t: t[1])
         return [s[0] for s in survivors]
     
 if __name__ == "__main__":
     s = Solution()
-    print(s.maxSubsequence([2,1,3,3],2))
+    print(s.maxSubsequence([2,1,3,3], 2))
     print(s.maxSubsequence([-1,-2,3,4], 3))
