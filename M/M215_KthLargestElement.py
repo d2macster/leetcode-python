@@ -7,11 +7,14 @@ class Solution:
             return -1
         q = []
         ql = 0
+        evicted = None
         for n in nums:
+            if evicted is not None and n < evicted:
+                continue
             heapq.heappush(q, n)
             ql += 1
             if ql > k:
-                heapq.heappop(q)
+                evicted = heapq.heappop(q)
                 ql -= 1
         return min(q)
     
