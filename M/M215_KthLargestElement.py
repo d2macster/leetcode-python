@@ -2,14 +2,12 @@ from typing import List
 import heapq
 class Solution:
     def findKthLargest(self, nums: List[int], k: int) -> int:
-        L = len(nums)
-        if k > L:
-            return -1
-        q = []
-        ql = 0
-        evicted = None
-        for n in nums:
-            if evicted is not None and n < evicted:
+        q = nums[0:k]
+        heapq.heapify(q)
+        ql = k
+        evicted = min(q)
+        for n in nums[k:]:
+            if n < evicted:
                 continue
             heapq.heappush(q, n)
             ql += 1
