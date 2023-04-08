@@ -1,41 +1,22 @@
 from typing import List
-from collections import defaultdict
-from sortedcontainers import SortedSet
+import heapq
 class Solution:
     def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:
         if k == 1:
             return nums
         L = len(nums)
         result = []
-        
-        if k == 2:
-            for i in range(1, L):
-                result.append(max(nums[i-1], nums[i]))
-            return result
-        
-        counter = defaultdict(int)
-        s = SortedSet()
-        M = nums[0]
+        q = []
         for i in range(0, k):
-            n = nums[i]
-            M = max(M, n)
-            counter[n] += 1
-            s.add(n)
-        result.append(M)
-
+            heapq.heappush(q, (-nums[i], i))
+        result.append(-q[0][0])
         for i in range(k, L):
-            n = nums[i]
-            s.add(n)
-            M = max(M, n)
-            ne = nums[i-k]
-            counter[n] += 1
-            counter[ne] -= 1
-            if counter[ne] <= 0:
-                counter.pop(ne)
-                s.discard(ne)
-                if ne == M:
-                    M = s.__getitem__(-1)
-            result.append(M)
+            heapq.heappush(q, (-nums[i], i))
+            while q[0][1] <= i - k:
+                heapq.heappop(q)
+            result.append(-q[0][0])
+
+            
         return result
     
 if __name__ == "__main__":
