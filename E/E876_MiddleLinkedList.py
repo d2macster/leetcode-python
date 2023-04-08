@@ -9,16 +9,7 @@ class Solution:
             return head
         h1 = head
         h2 = head
-        l = 1
-        while h2 is not None:
+        while h2 is not None and h2.next is not None:
             h1 = h1.next
-            h2 = h2.next
-            l += 1
-            if h2 is not None:
-                h2 = h2.next
-                l += 1
-        
-        if l % 2 == 1:
-            return h1
-        else:
-            return h1.next
+            h2 = h2.next.next
+        return h1
