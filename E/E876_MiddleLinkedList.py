@@ -7,18 +7,18 @@ class Solution:
     def middleNode(self, head: Optional[ListNode]) -> Optional[ListNode]:
         if not head:
             return head
-        l = 0
-        h = head
-        while h is not None:
+        h1 = head
+        h2 = head
+        l = 1
+        while h2 is not None:
+            h1 = h1.next
+            h2 = h2.next
             l += 1
-            h = h.next
-        m = int(l/2) + 1
+            if h2 is not None:
+                h2 = h2.next
+                l += 1
         
-        l = 0
-        h = head
-        while h is not None:
-            l += 1
-            if l == m:
-                return h
-            h = h.next
-        return None
+        if l % 2 == 1:
+            return h1
+        else:
+            return h1.next
