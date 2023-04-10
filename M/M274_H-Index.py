@@ -1,14 +1,21 @@
 from typing import List
+from collections import defaultdict
 class Solution:
     def hIndex(self, citations: List[int]) -> int:
-        citations = sorted(citations)
-        L = len(citations)
+        if not citations:
+            return 0
+
+        counter = defaultdict(int)
+        for c in citations:
+            counter[c] += 1
+        cv = sorted(counter.keys(), reverse=True)
         result = 0
-        for i in range(L):
-            c = min(citations[i], L - i)
-            result = max(result, c)
-            if result >= (L-i):
-                break
+        L = len(cv)
+
+        alreadyCounted = 0
+        for c in cv:
+            alreadyCounted += counter[c]
+            result = max(result, min(c, alreadyCounted))
         return result
 
 if __name__ == "__main__":
