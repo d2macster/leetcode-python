@@ -8,9 +8,11 @@ class Solution:
             return []
         result = []
         products = sorted(products)
+        lo = 0
         for i in range(Ls):
             prefix = searchWord[0:i+1]
-            pi = bisect.bisect_left(products, prefix)
+            pi = bisect.bisect_left(products, prefix, lo)
+            lo = pi
             result.append([p for p in products[pi:pi+3] if p.startswith(prefix)])
         return result
     
