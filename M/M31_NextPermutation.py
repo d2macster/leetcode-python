@@ -4,40 +4,37 @@ class Solution:
         L = len(nums)
         if L < 2:
             return
-        i = L-1
-        cache = {}
-        cache[nums[i]] = i
-        sorted_cache_keys = [nums[i]]
-        i-= 1
+        curMax = nums[L-1]
+        curMaxId = L-1
         swapped = False
+        i = L - 2
         while i >= 0:
             v = nums[i]
 
-            for k in sorted_cache_keys:
-                if k <= v:
-                    continue
-                vpi = cache[k]
-                nums[i] = k
-                nums[vpi] = v
-                swapped = True
-                break
+            if v >= curMax:
+                curMax = v
+                curMaxId = i
+                i -= 1
+                continue
+            swapped = True
+            break
 
-            if swapped:
-                break
-
-            if v not in cache:
-                cache[v] = i
-                sorted_cache_keys.append(v)
-                sorted_cache_keys = sorted(sorted_cache_keys)
-            i-= 1
-
-        if swapped:
-            tail = sorted(nums[i+1:])
-            nums[i+1:] = tail
+        if not swapped:
+            n = sorted(nums)
+            nums[:] = n[:]
             return
-        
-        n = sorted(nums)
-        nums[:] = n[:]
+
+        v = nums[i]
+        tail = nums[i:]
+        for j in range(i+1,L):
+            if nums[j] < curMax and nums[j] > v:
+                curMax = nums[j]
+                curMaxId = j
+        nums[i] = curMax
+        nums[curMaxId] = v
+
+        tail = sorted(nums[i+1:])
+        nums[i+1:] = tail
 
 if __name__ == "__main__":
     s = Solution()
