@@ -8,14 +8,14 @@ class Solution:
         right = [0] * L
         mL = 0
         mR = 0
-        for i in range(L):
-            mL = max(mL,  height[i])
-            left[i] = mL
+
         for j in range(L-1, -1, -1):
             mR = max(mR, height[j])
             right[j] = mR
         V = 0
         for i in range(L):
+            mL = max(mL,  height[i])
+            left[i] = mL
             V += max(0, min(left[i], right[i]) - height[i])
         return V
     
